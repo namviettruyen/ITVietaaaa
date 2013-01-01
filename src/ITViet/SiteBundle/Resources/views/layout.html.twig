@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+{% set locale = app.request.get('_locale') %}
+<html>
+	<head>
+		<meta charset="UTF-8" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" />	
+{#
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+#}
+		<script type="text/javascript" src="{{ asset('js/jquery-1.7.1.min.js') }}"></script>
+		<script src="{{ asset('js/validate.js') }}"></script>		
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="header">
+        <h1 id="logo"><a href="">Nam's Blog</a></h1>
+			</div><!--end header-->
+			<div id="navigator" class="group">
+				<ul id="top-menu">
+          {% block topmenu %}
+          {% endblock %}
+				</ul>
+        {% set pathParams = {'route':app.request.attributes.get('_route'),'args':app.request.attributes.all()|merge(app.request.query.all)}|merge((langAwarePathParams is defined) ? {'langAwareParams':langAwarePathParams}:{}) %}
+        <select id="language" onChange="location.href=$(this).val();">
+          {% for item in getPathsForLocales(pathParams) %}
+          <option{% if item.locale == locale %} selected='selected'{% endif %} value='{{item.path}}'>{{item.label | trans }}</option>
+          {% endfor %}
+        </select>
+        <span style="float:right; margin-right:10px">
+          <a href="{{ mlpath('_member_register') }}">{% trans %}Sign up{% endtrans %}</a>|
+          <a href="">{% trans %}Sign in{% endtrans %}</a>
+        </span>
+
+			</div>
+			<div id="content">
+      {% block slideshow %}
+      {% endblock %}
+				<div id="main-content" class="group">
+        <div id="breadcrum">
+        {% block breadcrum %}
+        {% endblock %}
+        </div>
+          {% if success_notifications is not defined %}
+            {% set success_notifications = [] %}
+          {% endif %}
+          {% if app.session.hasFlash('success') %}
+            {% set success_notifications = success_notifications|merge([app.session.flash('success')]) %}
+          {% endif %}
+          {% for notification in success_notifications %}
+            <div id="albox success">
+              {{ notification|raw }}
+            </div>
+          {% endfor %}
+
+        {% block maincontent %}
+        {% endblock %}
+        </div><!--end main-content-->
+				<div id="sidebar">
+					<ul class="tabs">
+						<li><a href="#random" class="active">Random</a></li>
+						<li><a href="#news">News</a></li>
+						<li><a href="#popular">Popular</a></li>
+					</ul>
+					<div class="tab_container">
+						<div id="random" class="tab_content">
+							<ul>
+								<li><a href="#">Article one</a></li>
+								<li><a href="#">Article one</a></li>
+								<li><a href="#">Article one</a></li>
+								<li><a href="#">Article one</a></li>
+								<li><a href="#">Article one</a></li>
+								<li><a href="#">Article one</a></li>
+							</ul>
+						</div>
+						<div id="news" class="tab_content">
+							<ul>
+								<li><a href="#">Article two</a></li>
+								<li><a href="#">Article two</a></li>
+								<li><a href="#">Article two</a></li>
+								<li><a href="#">Article two</a></li>
+								<li><a href="#">Article two</a></li>
+								<li><a href="#">Article two</a></li>
+							</ul>
+						</div>
+						<div id="popular" class="tab_content">
+							<ul>
+								<li><a href="#">Article three</a></li>
+								<li><a href="#">Article three</a></li>
+								<li><a href="#">Article three</a></li>
+								<li><a href="#">Article three</a></li>
+								<li><a href="#">Article three</a></li>
+								<li><a href="#">Article three</a></li>
+							</ul>
+						</div>						
+					</div><!--end tab_container-->
+					<div class="widget">
+						<h2>Discussion</h2>
+						<ul>
+							<li>
+								<strong><a href="#">Lorem aba tum lo ca te</a></strong>
+								<p>Lorem aba tum lo ca te Lorem aba tum lo ca te Lorem aba tum lo ca te Lorem aba tum lo ca te Lorem aba tum lo ca te</p>
+							</li>
+							<li>
+								<strong><a href="#">Lorem aba tum lo ca te</a></strong>
+								<p>Lorem aba tum lo ca te Lorem aba tum lo ca te Lorem aba tum lo ca te Lorem aba tum lo ca te Lorem aba tum lo ca te</p>
+							</li>
+							<li>
+								<strong><a href="#">Lorem aba tum lo ca te</a></strong>
+								<p>Lorem aba tum lo ca te Lorem aba tum lo ca te Lorem aba tum lo ca te Lorem aba tum lo ca te Lorem aba tum lo ca te</p>
+							</li>						
+						</ul>
+					</div>				
+				</div><!--end sidebar-->
+			</div><!--end content-->
+			<div id="footer">
+				<p>Do you care about footer? Me nether</p>
+			</div>
+		</div><!--end wrap-->
+	</body>
+</html>

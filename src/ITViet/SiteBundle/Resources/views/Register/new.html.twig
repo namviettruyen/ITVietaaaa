@@ -1,0 +1,110 @@
+{% extends 'ITVietSiteBundle::layout.html.twig' %}
+
+{% form_theme form _self %}
+{% block field_errors %}
+  {% for error in errors %}
+    {{ error.messageTemplate | trans(error.messageParameters, 'validators') }}<br />
+  {% endfor %}
+{% endblock %}
+
+{% block maincontent %}
+<script>
+<!--
+  function checkMemberMail(el){
+    var form = $(el).closest("form");
+    form.find('.email_availability_checker').remove();
+    var strAlert = "";
+    strAlert = strAlert + VKCheckRequireField(el, "{% trans %}Please enter your email{% endtrans %}!\n");
+    strAlert = strAlert + VKCheckEmail(el, "{% trans %}Your email is not valid{% endtrans %}!\n");
+    
+    if(strAlert != ""){
+      alert(strAlert);
+    }else{
+      $.ajax({
+        url: '{{ mlpath('_member_check_email_availability', {'email':''}) }}/' + el.value,
+        success: function(data) {
+          form.find('.email_availability_checker').remove();
+          form.find(document.frmArtNew['btnCheckMail']).after(data);
+        }
+      });
+      form.find(document.frmArtNew['btnCheckMail']).after('<div class="email_availability_checker"><img src="{{ asset('images/icon/loading.gif') }}" /></div>');
+    }
+  }
+-->
+</script>
+
+
+<form name="frmArtNew" id="frmArtNew" action="{{ mlpath('_member_register') }}" method="post" {{ form_enctype(form) }}>
+  {{ form_errors(form) }}
+  <p>
+    <span class="group">
+      <span class="red">*</span>
+      <span class="text">{% trans %}email{% endtrans %}</span>
+    </span>
+    {{ form_widget(form.email) }}
+    <input type="button" name="btnCheckMail" value="Check Mail Availability" onclick="return checkMemberMail(document.frmArtNew.elements['member[email]']);" />
+  </p>
+  <p>
+    <span class="group">
+      <span class="red">*</span>
+      <span class="text">{% trans %}password{% endtrans %}</span>
+    </span>
+    {{ form_widget(form.password) }}
+  </p>
+  <p>
+    <span class="group">
+      <span class="red">*</span>
+      <span class="text">{% trans %}retypePassword{% endtrans %}</span>
+    </span>
+    {{ form_widget(form.retypePassword) }}
+  </p>
+  <p>
+    <span class="group">
+      <span class="red">*</span>
+      <span class="text">{% trans %}Name{% endtrans %}</span>
+    </span>
+    {{ form_widget(form.fullName) }}
+  </p>
+  <p>
+    <span class="group">
+      <span class="red">*</span>
+      <span class="text">{% trans %}Address{% endtrans %}</span>
+    </span>
+    {{ form_widget(form.address) }}
+  </p>
+  <p>
+    <span class="group">
+      <span class="red">*</span>
+      <span class="text">{% trans %}gender{% endtrans %}</span>
+    </span>
+    {{ form_widget(form.gender) }}
+  </p>
+  <p>
+    <span class="group">
+      <span class="text">{% trans %}upimage{% endtrans %}</span>
+    </span>
+    {{ form_widget(form.upimage) }}
+  </p>
+  <div class="block">
+    <span class="group">
+      <span class="text">{% trans %}birthDate{% endtrans %}</span>
+    </span>
+    {{ form_widget(form.birthDate) }}
+  </div>
+  <p>
+    <span class="group">
+      <span class="text"></span>
+    </span>
+    {{ form_widget(form.agreeWithTnC) }}
+    <label>{% trans %}Agree all rule{% endtrans %}</label>
+  </p>
+  <p>
+    <span class="group">
+      <span class="text">&nbsp;</span>
+    </span>
+    <input type="submit" value="Submit" />
+  </p>
+
+  {{ form_rest(form) }}
+</form>
+{% endblock %}
