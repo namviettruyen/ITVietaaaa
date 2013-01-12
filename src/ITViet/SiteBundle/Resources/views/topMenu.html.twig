@@ -1,0 +1,25 @@
+<li>
+  <a {% if active == 'home' %}class="current"{% endif %} href="{{ mlpath('_homepage') }}" title="">
+    <span>{% trans %}Home{% endtrans %}</span>
+  </a>
+</li>
+<li>
+  <a href="#" title="">
+    <span>{% trans %}Web Development{% endtrans %}</span>
+  </a>
+</li>
+<li>
+  <a href="#" title="">
+    <span>{% trans %}News{% endtrans %}</span>
+  </a>
+</li>
+<li>
+  <a {% if active == 'member' %}class="current"{% endif %} href="{{ mlpath('_member_home') }}" title="">
+    <span>{% trans %}Member{% endtrans %}</span>
+  </a>
+</li>
+<li>
+  <a href="#" title="">
+    <span>{% trans %}About{% endtrans %}</span>
+  </a>
+</li>

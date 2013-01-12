@@ -1,0 +1,11 @@
+<form id="fmLogin" action="{{ mlpath('_member_login_check') }}" method="post">
+  <p>
+    {% trans %}Username{% endtrans %}:<br /><input class="wpcf7-text" size="40" type="text" id="username" name="_username" />
+  </p>
+  <p>
+    {% trans %}Password{% endtrans %}:<br /><input class="wpcf7-text" size="40" type="password" id="password" name="_password" />
+  </p>
+  <p>
+    <button class="btn-itv" type="submit" onclick="return CheckLoginForm();">{% trans %}Login{% endtrans %}</button>
+  </p>
+</form>

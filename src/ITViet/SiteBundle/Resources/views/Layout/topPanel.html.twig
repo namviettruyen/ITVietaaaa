@@ -1,0 +1,21 @@
+<div class="top-bar-right">
+  <span class="pannel">
+    {% if is_granted('ROLE_USER') %}
+    {% trans %}Hello{% endtrans %}: {{ app.user.fullname | truncate(10,'...') }}&nbsp;
+    <a href="{{ mlpath('_member_logout') }}">{% trans %}Logout{% endtrans %}</a>
+    {% else %}
+    <a href="{{ mlpath('_member_register') }}">{% trans %}Sign up{% endtrans %}</a>&nbsp;
+    <a class="inline" href="#inline_content">{% trans %}Sign in{% endtrans %}</a>
+    {% endif %}
+  </span>&nbsp;&nbsp;
+
+  {% set pathParams = {'route':app.request.attributes.get('_route'),'args':app.request.attributes.all()|merge(app.request.query.all)}|merge((langAwarePathParams is defined) ? {'langAwareParams':langAwarePathParams}:{}) %}
+  <select id="language" onChange="location.href=$(this).val();">
+    {% for item in getPathsForLocales(pathParams) %}
+    <option{% if item.locale == locale %} selected='selected'{% endif %} value='{{item.path}}'>{{item.label | trans }}</option>
+    {% endfor %}
+  </select>
+
+</div>
+
+<img height="20" src="{% if is_granted('ROLE_USER') %}{{ asset('images/member.png') }}{% else %}{{ asset('images/lock.png') }}{% endif %}" alt="" />

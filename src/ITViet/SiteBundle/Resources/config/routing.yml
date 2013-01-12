@@ -81,3 +81,60 @@ _vi_member_confirmed:
     requirements:
         _scheme: http
 
+###################################################
+
+_member_to_login:
+    pattern:  /{_locale}/to-login
+    defaults: { _controller: ITVietSiteBundle:Login:memberToLogin, _locale: vi }
+    requirements:
+        _scheme: http
+        _locale: en|vi
+_member_login:
+    pattern:  /{_locale}/login
+    defaults: { _controller: ITVietSiteBundle:Login:member }
+    requirements:
+        _scheme: http
+        _locale: en
+_vi_member_login:
+    pattern:  /dang-nhap
+    defaults: { _controller: ITVietSiteBundle:Login:member, _locale: vi }
+    requirements:
+        _scheme: http
+
+_member_login_check:
+    pattern:  /login_check
+
+_member_home:
+    pattern:  /{_locale}/member
+    defaults: { _controller: ITVietSiteBundle:Member\Home:index }
+    requirements:
+        _scheme: http
+        _locale: en
+_vi_member_home:
+    pattern:  /thanh-vien
+    defaults: { _controller: ITVietSiteBundle:Member\Home:index, _locale: vi }
+    requirements:
+        _scheme: http
+
+_member_logout:
+    pattern: /member/logout
+    requirements:
+        _scheme: http
+
+_member_post_new:
+    pattern: /{_locale}/member/newpost
+    defaults: { _controller: ITVietSiteBundle:Member\Article:new }
+    requirements:
+        _scheme: http
+        _locale: en
+_vi_member_post_new:
+    pattern: /thanh-vien/viet-bai-moi
+    defaults: { _controller: ITVietSiteBundle:Member\Article:new, _locale: vi }
+    requirements:
+        _scheme: http
+
+#############################################
+
+_javascript:
+    pattern: /javascript/{name}.ITViet.js
+    defaults: { _controller: ITVietSiteBundle:StaticAsset:showJs, _format: js }

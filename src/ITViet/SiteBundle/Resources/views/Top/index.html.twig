@@ -1,5 +1,10 @@
 {% extends 'ITVietSiteBundle::layout.html.twig' %}
+
 {% block title %}{% trans %}Index{% endtrans %}{% endblock %}
+
+{% block topmenu %}{% include 'ITVietSiteBundle::topMenu.html.twig' with {'active':'home'}%}{% endblock %}
+{% block sidebar %}{% include 'ITVietSiteBundle:Top:wall.html.twig' %}{% endblock %}
+
 {% block maincontent %}
 Hello!
 {% endblock %}

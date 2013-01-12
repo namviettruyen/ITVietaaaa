@@ -1,0 +1,72 @@
+{% extends 'ITVietSiteBundle::layout.html.twig' %}
+
+{% block topmenu %}
+  {% include 'ITVietSiteBundle::topMenu.html.twig' with {'active':'member'}%}
+{% endblock %}
+
+{% block breadcrumb %}
+  {% include 'ITVietSiteBundle:Member\\Home:breadcrumb.html.twig' %}
+{% endblock %}
+
+{% block sidebar %}{% include 'ITVietSiteBundle:Member\\Home:persInfo.html.twig' %}{% endblock %}
+
+{% block title %}{% trans %}Personal Page{% endtrans %}{% endblock %}
+
+{% block maincontent %}
+
+<script>
+<!--
+$(document).ready(function(){
+  $('.tab_content:not(:first)').hide();
+  $('.tabs li a').click(function(){
+    $('.tabs li a').removeClass('active');
+    $(this).addClass('active');
+    $('.tab_content').hide();
+    var activeTab = $(this).attr('href');
+    $(activeTab).fadeIn();
+    return false;
+  });
+});
+-->
+</script>
+
+
+<h1>{% trans %}Personal Page{% endtrans %}</h1>
+<div>
+Chu de nong
+</div>
+<div>
+Bai viet cua ban be
+</div>
+
+<div class="div-post-new">
+  <a href="{{ mlpath('_member_post_new') }}" class="post-new">Post new</a>
+</div>
+
+<ul class="tabs">
+  <li><a href="#hot" class="active">Hot</a></li>
+  <li><a href="#friend">Friend</a></li>
+</ul>
+<div class="tab_container">
+  <div id="hot" class="tab_content">
+    <ul>
+      <li><a>Bai viet abc hot ...</a>
+      <li><a>Bai viet abc hot ...</a>
+      <li><a>Bai viet abc hot ...</a>
+      <li><a>Bai viet abc hot ...</a>
+      <li><a>Bai viet abc hot ...</a>
+      <li><a>Bai viet abc hot ...</a>
+    </ul>
+  </div>
+  <div id="friend" class="tab_content">
+    <ul>
+      <li><a>Bai viet abc friend ...</a>
+      <li><a>Bai viet abc friend ...</a>
+      <li><a>Bai viet abc friend ...</a>
+      <li><a>Bai viet abc friend ...</a>
+      <li><a>Bai viet abc friend ...</a>
+      <li><a>Bai viet abc friend ...</a>
+    </ul>
+  </div>
+</div>
+{% endblock %}

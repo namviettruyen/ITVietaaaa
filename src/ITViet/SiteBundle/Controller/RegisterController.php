@@ -14,9 +14,8 @@ class RegisterController extends BaseController
     /**
      * @Template()
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
-        $request = $this->get('request');
         $t = $this->get('translator');
         $session = $this->get('session');
         $em = $this->get('doctrine.orm.entity_manager');
@@ -25,13 +24,23 @@ class RegisterController extends BaseController
 
         $maxUpload = 1;
 
-        if($request->getMethod() == 'POST'){
+        if ($request->getMethod() == 'POST'){
             $form->bindRequest($request);
 
-            if($form['password']->getData() != $form['retypePassword']->getData())
+            //check password and retypePassword
+            if ($form['password']->getData() != $form['retypePassword']->getData())
                 $form->addError(new FormError($t->trans('Your retype password is not match')));
 
-            if($form['upimage']->getData()){
+            //check email uniqueness
+            $email = $form['email']->getData();
+            $samePerson = $em->getRepository('ITVietSiteBundle:Member')
+              ->findBy(array('email' => $email));
+
+            if (sizeof($samePerson) > 0)
+                $form->addError(new FormError($t->trans('This email address was used.')));
+
+            //check image upload
+            if ($form['upimage']->getData()){
                 $imgFile = $form['upimage']->getData()->openFile('rb');
                 if($imgFile->getSize() > $maxUpload*1024*1024){
                     $form->addError(new FormError($t->trans('Your upload file is larger than %num% MB',array('%num%' => $maxUpload))));
@@ -62,12 +71,13 @@ class RegisterController extends BaseController
                   ), 'text/html');
                 $this->get('mailer')->send($message);
 
-            }
-            $em->persist($member);
-            $em->flush();
+                $em->persist($member);
+                $em->flush();
 
-            $session->set('member_confirmation_email', $member->getEmail());
-            return $this->redirect($this->generateMlUrl('_member_check_confirm_email'));
+                $session->set('member_confirmation_email', $member->getEmail());
+                return $this->redirect($this->generateMlUrl('_member_check_confirm_email'));
+
+            }
         }
 
         return array(

@@ -5,6 +5,8 @@ namespace ITViet\SiteBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use ITViet\SiteBundle\Model\CharConverter;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * ITViet\SiteBundle\Entity\Member
@@ -12,7 +14,7 @@ use ITViet\SiteBundle\Model\CharConverter;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="ITViet\SiteBundle\Repository\MemberRepository")
  */
-class Member
+class Member implements AdvancedUserInterface, \Serializable
 {
     /**
      * @var integer $id
@@ -117,7 +119,7 @@ class Member
     /**
      * @var string $confirmationToken
      *
-     * @ORM\Column(name="confirmationToken", type="string", length=200)
+     * @ORM\Column(name="confirmationToken", type="string", length=200, nullable=true)
      */
     private $confirmationToken;
 
@@ -592,8 +594,46 @@ class Member
         return $charConv->toPlainLatin($searchableInVn);
     }
 
-    public function isEnable(){
+    #4 method of AdvancedUser
+    public function isEnabled(){
         return $this->enabled;
+    }
+    public function isAccountNonExpired(){
+        return true;
+    }
+    public function isAccountNonLocked(){
+        return !$this->locked;
+    }
+    public function isCredentialsNonExpired(){
+        return true;
+    }
+
+    public function getRoles(){
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials(){
+    }
+
+    public function equals(UserInterface $user){
+        if ($this->getUsername() !== $user->getUsername())
+            return false;
+        return true;
+    }
+
+    public function getUsername(){
+        return $this->email;
+    }
+
+    public function serialize(){
+        return serialize(array(
+            $this->id,
+        ));
+    }
+    public function unserialize($serialized){
+        list (
+            $this->id,
+        ) = unserialize($serialized);
     }
 
 }

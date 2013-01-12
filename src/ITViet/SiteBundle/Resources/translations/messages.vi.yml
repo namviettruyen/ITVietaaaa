@@ -1,6 +1,18 @@
 'Index': 'Trang chủ'
-'Home Page': 'Trang chủ'
-'Category': 'Danh mục'
+'Home': 'Trang chủ'
+'Web Development': 'Phát triển Web'
+'News': 'Tin tức'
+'Member': 'Thành viên'
+
+'Username': 'Email Đăng nhập'
+'Password': 'Mật khẩu'
+'Login': 'Đăng nhập'
+
+'Bad credentials': 'Email hoặc mật khẩu không hợp lệ.'
+'User account is disabled.': 'Tài khoản chưa được kích hoạt.'
+'The presented password cannot be empty.': 'Mật khẩu không được để trống.'
+'The presented password is invalid.': 'Mật khẩu không hợp lệ.'
+
 'Title': 'Tiêu đề'
 'Add new article': 'Thêm bài viết mới'
 'Article name': 'Tên bài viết'
